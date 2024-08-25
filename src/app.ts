@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import cors from 'cors';  // Import cors
 import authRoutes from './routes/auth.route';
 import { AppDataSource } from './config/data-source';
 
@@ -14,7 +15,15 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(express.json());
-    // Add other middlewares here, e.g., cors, helmet, etc.
+    
+    // Add the CORS middleware
+    this.app.use(cors({
+      origin: 'http://localhost:3000',  // Replace with your frontend URL
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Specify allowed methods
+      allowedHeaders: ['Content-Type', 'Authorization'],  // Specify allowed headers
+    }));
+
+    // Add other middlewares here, e.g., helmet, etc.
   }
 
   private initializeRoutes() {
